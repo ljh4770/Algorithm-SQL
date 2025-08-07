@@ -1,0 +1,21 @@
+SELECT
+    (PRICE DIV POW(10, 4)) * POW(10, 4) AS PRICE_GROUP,
+    COUNT(DISTINCT(PRODUCT_ID)) AS PRODUCTS
+FROM PRODUCT
+GROUP BY PRICE_GROUP
+ORDER BY PRICE_GROUP ASC;
+
+-- 앞자리 구하기
+-- PRICE 나누기  10,000 의 몫
+
+-- 가격대 표현
+-- 맨 앞자리 * 10,000
+
+-- 확인
+-- 222,000 -> 22 -> 22 * 10000
+
+-- 폐기
+-- LENGTH(CONVERT(PRICE, VARCHAR(10)))
+-- 4 -> 1,000 ~ 9,999
+-- 5 -> 10,000 ~ 99,999
+-- 6 -> 100,000 ~ 999,999
