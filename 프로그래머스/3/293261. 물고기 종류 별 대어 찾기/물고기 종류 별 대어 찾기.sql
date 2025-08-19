@@ -1,0 +1,22 @@
+WITH CTE AS (
+        SELECT MAX(LENGTH) AS LENGTH,
+            FISH_TYPE AS FISH_TYPE
+        FROM FISH_INFO
+        GROUP BY FISH_TYPE
+    )
+SELECT I.ID AS ID,
+    N.FISH_NAME AS FISH_NAME,
+    I.LENGTH
+FROM (
+    (
+        FISH_INFO AS I
+        JOIN FISH_NAME_INFO AS N
+        ON I.FISH_TYPE = N.FISH_TYPE
+    )
+    JOIN CTE
+    ON (
+        I.FISH_TYPE = CTE.FISH_TYPE
+        AND I.LENGTH = CTE.LENGTH
+    )
+)
+ORDER BY I.ID ASC;
