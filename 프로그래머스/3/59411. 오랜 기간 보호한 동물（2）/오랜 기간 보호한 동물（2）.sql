@@ -1,0 +1,18 @@
+/*
+입양을 간 동물 중
+보호 기간이 가장 길었던 동물 두 마리
+아이디와 이름을 조회
+
+보호 기간이 긴 순으로 조회
+*/
+
+# DATEDIFF(O.DATETIME, I.DATETIME) AS DURATION
+SELECT I.ANIMAl_ID AS ANIMAL_ID,
+    I.NAME AS NAME
+FROM (
+    ANIMAL_INS AS I
+    JOIN ANIMAL_OUTS AS O
+    ON I.ANIMAL_ID = O.ANIMAL_ID
+)
+ORDER BY DATEDIFF(O.DATETIME, I.DATETIME) DESC
+LIMIT 2;
