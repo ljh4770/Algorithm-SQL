@@ -1,0 +1,29 @@
+WITH FRONT_SKILL AS (
+        SELECT SUM(CODE) AS FRONT_CODE
+        FROM SKILLCODES
+        WHERE CATEGORY = 'Front End'
+        GROUP BY CATEGORY
+    ), PYTHON AS (SELECT CODE FROM SKILLCODES WHERE NAME = 'Python'),
+    C_SHARP AS (SELECT CODE FROM SKILLCODES WHERE NAME = 'C#')
+SELECT R.GRADE, R.ID, R.EMAIL
+FROM (
+    SELECT
+        (CASE
+            WHEN (
+                SKILL_CODE & P.CODE = P.CODE
+                AND SKILL_CODE & F.FRONT_CODE > 0
+            ) THEN 'A'
+            WHEN SKILL_CODE & C.CODE = C.CODE THEN 'B'
+            WHEN SKILL_CODE & F.FRONT_CODE THEN 'C'
+            ELSE NULL
+        END) AS GRADE,
+        ID, EMAIL
+    FROM (
+        DEVELOPERS AS D,
+        FRONT_SKILL AS F,
+        PYTHON AS P,
+        C_SHARP AS C
+    )
+) AS R
+WHERE R.GRADE IS NOT NULL
+ORDER BY R.GRADE ASC, R.ID ASC;
